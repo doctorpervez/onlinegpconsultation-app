@@ -1,0 +1,165 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>Consultation Details</h1>
+
+
+<div class="mb-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+   
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col" colspan="4">Patient:<a href="{% url 'consultations:patient_detail' consultation.patient.pk %}">{{ consultation.patient }}</a></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <th scope="row">Date:</th>
+        <td>{{ consultation.date }}</td>
+        
+      </tr>
+      <tr>
+        <th scope="row">Problem:</th>
+        <td>{{ consultation.diagnosis }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Details: </th>
+        <td colspan="2"><p>{{ consultation.notes }}</p></td>
+      </tr>
+      <tr>
+        <th scope="row">Clinician:</th>
+        <td>{{ request.user }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<h2>Tests requested</h2>
+<div class="mb-3">
+{% if consultation.tests.exists %}
+<table class="table table-bordered">
+    <tr>
+        {% for test in consultation.tests.all %}
+            <td>{{ test.test_choice.name }}</td>
+            {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                </tr><tr>
+            {% endif %}
+        {% endfor %}
+    </tr>
+</table>
+
+<div class="btn-group" role="group" >
+  <a href="{% url 'consultations:add_tests' consultation.pk %}" class="btn btn-warning">Add Tests</a>
+  <a href="{% url 'consultations:print_tests' consultation.pk %}" class="btn btn-primary" target="_blank">Print tests requests</a>
+   
+</div>
+{% else %}
+<p>No test requested for this consultation.</p>
+<div class="btn-group" role="group" >
+  <a href="{% url 'consultations:add_tests' consultation.pk %}" class="btn btn-warning">Add Tests</a>
+   
+</div>
+{% endif %}
+
+</div>
+
+<h2>Prescriptions</h2>
+<div class="mb-3">
+    <form  method="POST" action="{% url 'prescriptions:print_prescriptions' consultation.patient.pk %}">
+        {% csrf_token %}
+        
+        <div class="form-control">
+
+        <ul class="list-group">
+
+        {% if prescriptions %}
+                {% for prescription in prescriptions %}
+               
+                    <li class="list-group-item"><input class="form-check-input me-1"  type="checkbox" name="prescription_ids" value="{{ prescription.pk }}"> <a href="{% url 'prescriptions:prescription_detail' prescription.id %}">{{ prescription.medication }} </a></li>
+
+               
+                {% endfor %}
+
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Print Selected Prescriptions</button>
+        {% else %}
+            <p>No prescriptions for this consultation but you can prescribe below </p>
+        {% endif %}
+        </ul>     
+        
+    </form>
+</div>
+<br>
+
+    <h5>Add New Prescription</h5>
+    <div class="mb-3">
+    <form method="POST" action="{% url 'prescriptions:add_prescription' consultation.pk %}">
+        {% csrf_token %}
+        <div class="form-control">
+        {{ form.as_p }}
+        </div><br>
+        <button type="submit" class="btn btn-warning">Add Prescription</button>
+    </form>
+<br>
+
+
+<div class="card-group">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">All Prescriptions</h5>
+        <p class="card-text">Click below to see all prescriptions of {{ consultation.patient }}. One or multiple prescriptions can be printed by ticking the check boxes left to each prescription. </p><br><br>
+        <a href="{% url 'prescriptions:patient_prescriptions_redirection_from_cons' consultation.patient.pk consultation.id %}"  class="btn btn-primary">Prescriptions</a>
+      </div>
+    </div>
+ 
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Send new referrals</h5>
+        <p class="card-text">Make a referral to the specialist. The form when submitted will give a 6 digit passcode and a link. You must provide these two information to the patient to take to the specialist. Specialist can see the referral using the passcode.</p>
+        <a href= "{% url 'referrals:create_referral' consultation.patient.pk %}" class="btn btn-primary">Make a referral</a>
+      </div>
+    </div>
+ 
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Upload new documents</h5>
+        <p class="card-text">Click below to uplaod a new document for {{ consultation.patient }}. All documents can viewed in patient detial page. Click {{ consultation.patient }}'s name above</p><br><br><br>
+        <a href= "{% url 'documents:upload_document_redirection_from_cons' consultation.patient.pk consultation.id %}"class="btn btn-primary">Upload Document</a>
+      </div>
+    </div>
+</div>
+
+  
+ 
+{% endblock %}
+
+
+
+
+<!-- consultations/templates/consultations/consultation_detail.html -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultation Detail</title>
+</head>
+<body>
+
+</body>
+</html> -->
+
+<!-- <h2>Prescriptions</h2>
+<ul>
+    {% for prescription in consultation.prescriptions.all %}
+        <li><a href="{% url 'prescriptions:prescription_detail' prescription.id %}">{{ prescription.medication }} - {{ prescription.date }}</a></li>
+    {% empty %}
+        <li>No prescriptions</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'prescriptions:add_prescription' consultation.id %}">Add Prescription</a>
+<br>
+<a href="{% url 'consultations:patient_detail' consultation.patient.pk %}">Patient detail</a> -->

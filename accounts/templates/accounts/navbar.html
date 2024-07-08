@@ -1,0 +1,70 @@
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        {% if user.is_authenticated %}
+            {% if request.user.is_staff %}
+        
+          <a class="navbar-brand" href="{% url 'consultations:patient_list' %}">MyGP</a>
+          {% else %}
+          <a class="navbar-brand" href="{% url 'accounts:login' %}">MyGP</a>
+
+          
+          {% endif %}
+
+
+
+       {% else %}
+       <a class="navbar-brand" href="{% url 'accounts:login' %}">MyGP</a>
+       {% endif %}
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      {% if user.is_authenticated %}
+          {% if patient.pk %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Appointments
+            </a>
+            <ul class="dropdown-menu">
+              <li> <a class="dropdown-item" href="{% url 'appointments:appointment_list' %}">Appointments list</a></li>
+              <li><a class="dropdown-item" href="{% url 'appointments:appointment_dashboard' %}">Appointment Dashboard</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'appointments:create_appointment' patient.pk %}">Make appointment </a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Appointments
+            </a>
+            <ul class="dropdown-menu">
+              <li> <a class="dropdown-item" href="{% url 'appointments:appointment_list' %}">Appointments list</a></li>
+              <li><a class="dropdown-item" href="{% url 'appointments:appointment_dashboard' %}">Appointment Dashboard</a></li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+          </li>
+          {% endif %}
+
+    {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+          </li>
+    {% endif %}
+      
+        
+        </ul>
+        
+      </div>
+    </div>
+  </nav>

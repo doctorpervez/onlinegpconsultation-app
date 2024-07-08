@@ -1,0 +1,49 @@
+<!-- templates/documents/patient_documents.html -->
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>Documents for {{ patient }}</h1>
+{% if documents %}   
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Date Uploaded</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+        {% for document in documents %}
+            <tr>
+                <td>{{ document.title }}</td>
+                <td>
+                    {% if document.category %}
+                        {{ document.category.name }}
+                    {% else %}
+                        No Category
+                    {% endif %}
+                </td>
+                <td>{{ document.date_uploaded }}</td>
+                <td>
+                    <a type="button" class="btn btn-success" href="{{ document.file.url }}" target="_blank">View</a>
+                    <form action="{% url 'documents:delete_document' document.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+
+ 
+    </tbody>
+</table>
+{% else %}
+<p><mark>{{patient}} does not have any document in their record yet. You can uplaod a document by clicking below.</mark></p>
+{% endif%}
+<div class="btn-group">
+<a class="btn btn-success" type="button" href="{% url 'documents:upload_document' patient.id %}">Upload New Document</a>
+<a class="btn btn-warning" type="button" href="{% url 'consultations:patient_detail' patient.id %}">Back to patient detail </a>
+</div>
+{% endblock %}

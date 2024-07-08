@@ -1,0 +1,35 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-4">
+
+
+    {% if user.is_authenticated %}
+<h1>You are already logged in</h1> 
+<meta http-equiv="refresh" content="0; url=consultations/search" />
+{% else %}
+<h1>Login</h1>
+<form method="POST" action="{% url 'accounts:login' %}">
+    {% csrf_token %}
+
+    <form>
+        <div class="mb-3">
+          <input type="text" class="form-control" name="username" placeholder="username" required>
+        </div>
+        <div class="mb-3">
+          <input type="password" class="form-control" name="password" placeholder="password" required>
+        </div>
+       
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+
+</form>
+
+{% endif %}
+
+
+</div>
+
+{% endblock %}
+

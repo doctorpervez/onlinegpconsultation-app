@@ -1,0 +1,21 @@
+<!-- consultations/templates/consultations/add_tests.html -->
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+  <h1>Add Tests for  {{ consultation.patient }}</h1>
+  <div class="mb-3">
+  <form method="post" >
+    {% csrf_token %}
+   
+    <div class="form-control">
+        {{ form.as_p}}
+
+        
+    </div><br>
+    <button type="submit" class="btn btn-success" >Save</button>
+</form>
+</div>
+
+  <a href="{% url 'consultations:consultation_detail' consultation.pk %}">Back to Consultation Detail</a>
+{% endblock %}

@@ -1,0 +1,97 @@
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="card text-bg-light mb-3 shadow p-3 mb-5 bg-body-secondary rounded">
+    <div class="card-body"><h4 class="card-title"> {{ patient.first_name }} {{ patient.last_name}}</h4></div>
+    <div class="card-body">
+      <p class="card-text">DOB: {{ patient.date_of_birth }} Address: {{ patient.address }} Tel: {{ patient.phone }} Next of kin: {{ patient.next_of_kin }} Next of kin contact: {{ patient.next_of_kin_phone }}</p>
+    </div>
+  </div>
+
+<title>Patient Details</title>
+
+<br>
+
+<h5>Add New Consultation</h5>
+<div class="form-control">
+<form  method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button  type="submit" class="btn btn-primary">Add Consultation</button>
+</form>
+</div>
+
+<br>
+
+<h5>Consultations list</h5>
+
+{% if consultations %}
+
+<table class="table table-striped table-hover table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Problem</th>
+        <th scope="col">Prescription Issued?</th>
+        <th scope="col">Clinician</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    
+
+      {% for consultation in consultations %}
+        <tr>
+          <td><a href="{% url 'consultations:consultation_detail' consultation.id %}">{{ consultation.date}}</a></td>
+          <td>{{ consultation.diagnosis }}</td>
+          <td>{% if consultation.prescriptions.exists %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
+          <td>{{ request.user }}</td>
+         
+        </tr>
+      
+
+      {% endfor %}
+
+
+    </tbody>
+
+  </table>
+
+{% else %}
+
+  <p> No consultation yet. New patient?</p>
+
+{% endif %}
+
+<div class="card-group">
+    
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">All Prescriptions</h5>
+        <p class="card-text">Click below to see all prescriptions of {{ consultation.patient }}. One or multiple prescriptions can be printed by ticking the check boxes left to each prescription. </p><br><br>
+        <a href="{% url 'prescriptions:patient_prescriptions' patient.pk %}"  class="btn btn-primary">Prescriptions</a>
+      </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">All Referrals</h5>
+          <p class="card-text">Click below to see all referrals  of {{ consultation.patient }}. </p><br><br><br><br>
+          <a href="{% url 'referrals:patient_referrals' patient.pk %}"  class="btn btn-primary">All referrals</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">All Documents</h5>
+          <p class="card-text">Click below to see all documents of {{ consultation.patient }}.  </p><br><br><br><br>
+          <a href="{% url 'documents:patient_documents' patient.pk %}"  class="btn btn-primary">All Documents</a>
+        </div>
+      </div>
+</div>
+
+
+
+{% endblock %}
+

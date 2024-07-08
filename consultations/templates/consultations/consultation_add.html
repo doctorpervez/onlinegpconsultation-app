@@ -1,0 +1,28 @@
+<!-- consultations/templates/consultations/consultation_add.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Consultation</title>
+</head>
+<body>
+    <h1>Add Consultation</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="{{ form.patient.id_for_label }}">Patient:</label>
+            {{ form.patient }}
+        </div>
+        <div>
+            <label for="{{ form.clinician.id_for_label }}">Clinician:</label>
+            {{ form.clinician }}
+        </div>
+        <div>
+            <label for="{{ form.notes.id_for_label }}">Notes:</label>
+            {{ form.notes }}
+        </div>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

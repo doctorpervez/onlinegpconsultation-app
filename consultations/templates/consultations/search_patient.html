@@ -1,0 +1,72 @@
+
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<br><br><br><br><br><br>
+
+
+<div class="col-md-4 offset-md-4">
+{% if user.is_authenticated %}
+    <h1>Search Patients</h1>
+    <form class="d-flex" role="search" method="GET" action="{% url 'consultations:search_patient' %}">
+        <input class="form-control me-2"  type="search" name="q" placeholder="Search by name or other attributes" aria-label="Search">
+        <button class="btn btn-outline-success"  type="submit" >Search</button>
+    </form>
+        <br>
+
+        <div class="col-md-12">
+
+        <table class="table">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">ID</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if patients %}
+
+                    {% for patient in patients %}
+                        <tr>
+                            <td>{{ patient.first_name }} </td>
+                            <td>{{ patient.last_name }}</td>
+                            <td><a href="{% url 'consultations:patient_detail' patient.pk %}">{{ patient.id }}</a></td>
+
+                        </tr>
+
+                    {% endfor %}
+              
+                {% elif query %}
+                <p>No patients found for your search: "{{ query }}"</p>
+            {% endif %}
+            </tbody>
+        </table>
+        </div>
+            
+
+{% else %}
+<h1>Login</h1>
+<form method="POST" action="{% url 'accounts:login' %}">
+    {% csrf_token %}
+
+    <form>
+        <div class="mb-3">
+          <input type="text" class="form-control" name="username" placeholder="username" required>
+        </div>
+        <div class="mb-3">
+          <input type="password" class="form-control" name="password" placeholder="password" required>
+        </div>
+       
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+
+</form>
+
+{% endif %}
+
+</div>
+
+{% endblock %}
+

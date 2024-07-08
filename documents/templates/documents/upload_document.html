@@ -1,0 +1,20 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>Upload Document for {{ patient }}</h1>
+<div class="input-group mb-3">
+<form class="form-control" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <button type="submit" class="btn btn-success">Upload</button>
+</form>
+</div>
+<div class="btn-group">
+<a type="button" class="btn btn-primary" href="{% url 'documents:patient_documents' patient.id %}">All Documents</a>
+{% if consultation_id %}
+<a  type="button" class="btn btn-secondary" href="{% url 'consultations:consultation_detail' consultation_id %}">Back to consultation </a>
+{% endif %}
+<a type="button" class="btn btn-warning" href="{% url 'consultations:patient_detail' patient.id %}">Patient detail </a>
+</div>
+{% endblock %}

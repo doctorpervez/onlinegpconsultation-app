@@ -1,0 +1,6 @@
+<h1>Consultations</h1>
+<ul>
+    {% for consultation in consultations %}
+    <li><a href="{% url 'consultations:consultation_detail' consultation.id %}">{{ consultation.patient.last_name }}, {{ consultation.date }}</a></li>
+    {% endfor %}
+</ul>
