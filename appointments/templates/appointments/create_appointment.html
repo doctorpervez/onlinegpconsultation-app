@@ -1,0 +1,13 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>Create Appointment for {{ patient }}</h1>
+
+<div class="form-control">
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+</div>
+{% endblock %}

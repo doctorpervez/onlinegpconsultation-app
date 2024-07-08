@@ -1,0 +1,65 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+
+
+<div class="mb-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+  <h2>Referral to specialist </h2>
+
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" colspan="4">Name of the patient: <a href="{% url 'consultations:patient_detail' referral.patient.pk %}">{{ referral.patient }}</a></th>
+        </tr>
+      </thead>
+  
+      <tbody>
+        <tr>
+          <th scope="row">Reason for referral: </th>
+          <td>{{ referral.title }}</td>
+          
+        </tr>
+        <tr>
+          <th scope="row">Date of referral:</th>
+          <td>{{ referral.date }}</td>
+          
+        </tr>
+        <tr>
+          <th scope="row">Referred to Clinician: </th>
+          <td>{{ referral.referred_to_clinician }}</td>
+          
+        </tr>
+        <tr>
+          <th scope="row">Specialty </th>
+          <td>{{ referral.specialty }}</td>
+          
+        </tr>
+        <tr>
+          <th scope="row">Referring Clinician: </th>
+          <td>{{ referral.referring_clinician.username }}</td>
+          
+        </tr>
+        <tr>
+          <th scope="row">Referral Detail:</th>
+          <td>{{ referral.reason }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Referral access code: </th>
+          <td colspan="2"><p>{{ referral.access_code}}</p></td>
+        </tr>
+        <tr>
+          <th scope="row">Access Page Link:</th>
+          <td><a href="{% url 'referrals:referral_access_page' %}">http://{{ request.get_host }}/referrals/access/</a></td>
+        </tr>
+      </tbody>
+    </table>
+  <div class="btn-group" role="group" aria-label="Basic-example">
+    <a type="button" class="btn btn-success" href="{% url 'referrals:patient_referrals' referral.patient.pk %}">All referrals </a><br>
+    <a type="button" class="btn btn-warning" href="{% url 'consultations:patient_detail' referral.patient.pk %}"> Patient Detail </a>
+</div>
+</div>
+  
+
+
+{% endblock %}

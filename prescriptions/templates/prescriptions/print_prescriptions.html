@@ -1,0 +1,39 @@
+<!-- templates/prescriptions/print_prescriptions.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print Prescriptions for {{ patient }}</title>
+    <style>
+        /* Add your styles for printing here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .prescription {
+            border: 1px solid #000;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h4>Prescriptions for {{ patient }}</h4><h5> DOB:{{  patient.date_of_birth }}</h5>
+    <div class="prescription">
+    {% for prescription in prescriptions %}
+            <p>{{ prescription.medication }} - {{ prescription.dosage }} - {{ prescription.instructions }}</p>
+
+    {% endfor %}
+
+   </div> <div> <p> Doctor: .................. </p>
+    <p>Date: {% now "Y-m-d" %}</p>
+   
+
+    </div>
+
+    <script>
+        window.onload = function() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+  <h1>Create Referral for {{ patient }}</h1>
+
+  <div class="form-control">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit"  class="btn btn-danger">Create Referral</button>
+    <a href="{% url 'consultations:patient_detail' patient.pk %}" type="button"  class="btn btn-warning">Back to patient detail</a>
+
+  </form>
+</div>
+{% endblock %}

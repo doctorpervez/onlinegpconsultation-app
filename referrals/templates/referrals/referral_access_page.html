@@ -1,0 +1,13 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+  <h1>Access Referral</h1>
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="access_code" placeholder="Enter Access Code" required>
+    <button type="submit">Access Referral</button>
+  </form>
+
+  
+
+{% endblock %}

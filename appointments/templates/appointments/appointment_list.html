@@ -1,0 +1,23 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>All appointments with Dr. {{request.user}}</h1>
+{% if patient_id %}
+<a href="{% url 'appointments:create_appointment' patient.id %}">Book New Appointment</a>
+{% endif %}
+<ul>
+{% if appointments %}
+    {% for appointment in appointments %}
+        <li>
+            {{ appointment.date }} - {{ appointment.patient }} - {{ appointment.reason }}
+            <a href="{% url 'appointments:appointment_detail' appointment.pk %}">View</a>
+        </li>
+    {% endfor %}
+{% else %}
+<p>No appointment yet. To create an appointment, please go to patient detail page. </p>
+<a href="{% url 'consultations:search_patient' %}">Search Patient</a>
+{% endif %}
+</ul>
+<a href="{% url 'consultations:search_patient' %}">Search Patient</a>
+
+{% endblock %}

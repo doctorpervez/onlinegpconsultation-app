@@ -1,0 +1,48 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<title>Add Prescription</title>
+    <h1>Prescriptions for {{ patient }}</h1>
+<div class="mb-3">
+    <form method="POST" action="{% url 'prescriptions:print_prescriptions' patient.pk %}">
+        {% csrf_token %}
+        <div class="form-control">
+
+<ul class="list-group">
+{% if prescriptions %}
+
+    {% for prescription in prescriptions %}
+                    <li class="list-group-item">
+                        <input type="checkbox" class="form-check-input me-1" name="prescription_ids" value="{{ prescription.pk }}">
+                        {{ prescription.medication }} {{ prescription.dosage }} {{ prescription.instructions }} (Consultation Date: {{ prescription.consultation.date }})
+                        <a href="{% url 'prescriptions:prescription_detail' prescription.id %}">View the prescription</a>
+
+                    </li>
+    {% endfor %}
+</ul>
+     
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="submit" class="btn btn-success">Print Selected Prescriptions</button>
+            <a href="{% url 'consultations:patient_detail' patient.pk %}" type="button" class="btn btn-warning">Patient Details</a>
+            {% if consultation_id %}
+            <a href="{% url 'consultations:consultation_detail' consultation_id %}" type="button" class="btn btn-danger">Back to current consultation</a>
+            {% endif %}
+        </div>
+{% else %}
+</div>
+</form>
+
+<p>No prescriptions found for this patient.</p>
+        <div class="btn-group" role="group" aria-label="Basic-example">
+            <a href="{% url 'consultations:patient_detail' patient.pk %}" type="button" class="btn btn-warning">Patient Details</a>
+            {% if consultation_id %}
+            <a href="{% url 'consultations:consultation_detail' consultation_id %}" type="button" class="btn btn-danger">Back to current consultation</a>
+            {% endif %}
+        </div>
+{% endif %}
+       
+       
+    
+</div>
+
+{% endblock %}

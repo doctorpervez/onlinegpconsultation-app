@@ -1,0 +1,25 @@
+
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+
+
+<title>Prescription Detail</title>
+<div class="mb-3">
+<h1>Prescription details</h1>
+<p>Date: {{ prescription.date }}</p>
+<p>Medication: {{ prescription.medication }}</p>
+<p>Dosage: {{ prescription.dosage }}</p>
+<p>Instructions: {{ prescription.instructions }}</p>
+</div>
+<div class="btn-group">
+<a type="button" class="btn btn-success" href="{% url 'consultations:consultation_detail' prescription.consultation.id %}">Back to consultation detail</a>
+<a type="button" class="btn btn-warning" href="{% url 'consultations:patient_detail' prescription.consultation.patient.id %}">Back to Patient detail</a>
+<a type="button" class="btn btn-primary" href="{% url 'prescriptions:patient_prescriptions' prescription.consultation.patient.id %}">All prescriptions</a>
+
+</div>
+
+
+{% endblock %}

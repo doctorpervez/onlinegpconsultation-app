@@ -1,0 +1,26 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="mb-3">
+<h1>Referrals for {{ patient }}</h1>
+
+<ul class="list-group">
+{% if referrals %}
+
+        {% for referral in referrals %}
+            <li class="list-group-item">
+                <a href="{% url 'referrals:referral_detail' referral.pk %}">{{ referral.title }}</a>
+                - Referred to: {{ referral.referred_to_clinician }} on {{ referral.date }}
+            </li>
+        {% endfor %}
+</ul>
+{% else %}
+    <p>No referrals found for this patient.</p>
+{% endif %}
+<div class="btn-group" role="group" aria-label="Basic example">
+
+<a type="button" class="btn btn-success" href="{% url 'referrals:create_referral' patient.pk %}">Create a new referral</a>
+<a type="button" class="btn btn-warning"  href="{% url 'consultations:patient_detail' patient.pk %}">Back to patient details</a>
+</div>
+</div>
+{% endblock %}

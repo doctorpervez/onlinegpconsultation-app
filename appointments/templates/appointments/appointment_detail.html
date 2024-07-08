@@ -1,0 +1,10 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>Appointment Detail for {{appointment.patient}}</h1>
+<p>Patient: <a href="{% url 'consultations:patient_detail' appointment.patient.id %}">{{appointment.patient }}</a> </p>
+<p>Clinician: {{ appointment.clinician }}</p>
+<p>Date: {{ appointment.date }}</p>
+<p>Reason: {{ appointment.reason }}</p>
+<a href="{% url 'appointments:edit_appointment' appointment.pk %}">Edit</a>
+{% endblock %}
