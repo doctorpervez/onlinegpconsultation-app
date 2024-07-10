@@ -1,23 +1,56 @@
 {% extends 'accounts/base.html' %}
 
 {% block content %}
+<div class="container table-responsive">
 <h1>All appointments with Dr. {{request.user}}</h1>
 {% if patient_id %}
 <a href="{% url 'appointments:create_appointment' patient.id %}">Book New Appointment</a>
 {% endif %}
 <ul>
-{% if appointments %}
-    {% for appointment in appointments %}
-        <li>
-            {{ appointment.date }} - {{ appointment.patient }} - {{ appointment.reason }}
-            <a href="{% url 'appointments:appointment_detail' appointment.pk %}">View</a>
-        </li>
-    {% endfor %}
-{% else %}
-<p>No appointment yet. To create an appointment, please go to patient detail page. </p>
-<a href="{% url 'consultations:search_patient' %}">Search Patient</a>
-{% endif %}
-</ul>
-<a href="{% url 'consultations:search_patient' %}">Search Patient</a>
 
+
+
+
+{% if appointments %}
+
+<table class="table table-striped table-hover table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Reason</th>
+        <th scope="col">Clinician</th>
+        <th scope="col">View to edit</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    
+
+      {% for appointment in appointments %}
+        <tr>
+          <td>{{ appointment.date | date:"D d M Y" }}</td>
+          <td>{{ appointment.date | time:"H:i"  }}</td>
+          <td>{{ appointment.reason }}</td>
+          <td>{{ appointment.clinician }}</td>
+          <td><a type="button" class="btn btn-success" href="{% url 'appointments:appointment_detail' appointment.pk %}">View to edit</a></td>
+         
+        </tr>
+      
+
+      {% endfor %}
+
+
+    </tbody>
+
+  </table>
+
+{% else %}
+
+<p>No appointment yet. To create an appointment, please go to patient detail page. </p>
+<a class="btn btn-primary" href="{% url 'consultations:search_patient' %}">Search Patient</a>
+
+{% endif %}
+</div>
 {% endblock %}
+

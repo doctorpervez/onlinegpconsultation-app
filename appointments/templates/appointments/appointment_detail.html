@@ -4,7 +4,8 @@
 <h1>Appointment Detail for {{appointment.patient}}</h1>
 <p>Patient: <a href="{% url 'consultations:patient_detail' appointment.patient.id %}">{{appointment.patient }}</a> </p>
 <p>Clinician: {{ appointment.clinician }}</p>
-<p>Date: {{ appointment.date }}</p>
+<p>Date: {{ appointment.date | date:"D d M Y" }}</p>
+<p>Time: {{ appointment.date | time:"H:i" }}</p>
 <p>Reason: {{ appointment.reason }}</p>
-<a href="{% url 'appointments:edit_appointment' appointment.pk %}">Edit</a>
+<a type="button" class="btn btn-secondary" href="{% url 'appointments:edit_appointment' appointment.pk %}">Edit</a>
 {% endblock %}
