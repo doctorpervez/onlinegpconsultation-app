@@ -16,6 +16,7 @@
 <table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
       <tr>
+        <th scope="col">Patient</th>
         <th scope="col">Date</th>
         <th scope="col">Time</th>
         <th scope="col">Reason</th>
@@ -29,6 +30,7 @@
 
       {% for appointment in appointments %}
         <tr>
+          <td><a href="{% url 'consultations:patient_detail' appointment.patient.id %}" >{{ appointment.patient }}</a></td>
           <td>{{ appointment.date | date:"D d M Y" }}</td>
           <td>{{ appointment.date | time:"H:i"  }}</td>
           <td>{{ appointment.reason }}</td>
