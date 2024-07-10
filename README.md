@@ -15,3 +15,9 @@ The system supports patient management, appointments, consultations, prescriptio
 - **Referrals**: Create and manage patient referrals to specialists.
 - **Documents**: Upload and manage patient-related documents.
 - **Test Requests**: Request and print tests for patients.
+
+## Try this: 
+https://drpervez.pythonanywhere.com
+username: demo
+password: Tasneem1@
+patient: Demo (write 'demo' in search box)
