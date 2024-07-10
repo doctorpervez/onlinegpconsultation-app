@@ -58,6 +58,7 @@ def patient_detail(request, pk):
         if form.is_valid():
             consultation = form.save(commit=False)
             consultation.patient = patient
+            consultation.clinician = request.user
             consultation.save()
             return redirect('consultations:patient_detail', pk=patient.pk)
     else:

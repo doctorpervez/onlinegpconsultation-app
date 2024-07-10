@@ -46,7 +46,7 @@
           <td><a href="{% url 'consultations:consultation_detail' consultation.id %}">{{ consultation.date}}</a></td>
           <td>{{ consultation.diagnosis }}</td>
           <td>{% if consultation.prescriptions.exists %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
-          <td>{{ request.user }}</td>
+          <td>{{ consultation.clinician }}</td>
          
         </tr>
       

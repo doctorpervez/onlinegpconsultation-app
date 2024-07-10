@@ -1,5 +1,7 @@
 from django.db import models
 from accounts.models import CustomUser
+from django.contrib.auth import get_user_model
+
 
 class Patient(models.Model):
     first_name = models.CharField(max_length=50)
@@ -18,6 +20,7 @@ class Patient(models.Model):
     
 class Consultation(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    clinician = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     diagnosis = models.CharField(max_length=50, null=True, blank=True)
     notes = models.TextField()
